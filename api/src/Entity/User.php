@@ -9,30 +9,38 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource(mercure: true)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableEntity;
 
+    #[Groups(["read", "write"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Groups(["read", "write"])]
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $username;
 
+    #[Groups(["write"])]
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
+    #[Groups(["write"])]
     #[ORM\Column(type: 'string')]
     private $password;
 
+    #[Groups(["write"])]
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: ToDo::class, orphanRemoval: true)]
     private $toDos;
 
@@ -151,6 +159,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $toDo->setCreator(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDontSerialise(): ?string
+    {
+        return $this->dontSerialise;
+    }
+
+    public function setDontSerialise(?string $dontSerialise): self
+    {
+        $this->dontSerialise = $dontSerialise;
 
         return $this;
     }

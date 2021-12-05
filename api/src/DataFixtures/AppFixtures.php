@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Task;
 use App\Entity\ToDo;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -24,11 +25,25 @@ class AppFixtures extends Fixture
         $admin->setUsername('admin');
         $password = $this->hasher->hashPassword($admin,'password');
         $admin->setPassword($password);
+        $manager->persist($admin);
 
         $todo = new ToDo();
+        $todo->setCreator($admin)
+            ->setName('liste une');
+        $manager->persist($todo);
 
+        $task = new Task();
+        $task->setName('Tache 1')
+            ->setToDo($todo)
+            ->setStatus(Task::STATE_CREATED);
+        $manager->persist($task);
 
-        $manager->persist($admin);
+        $user = new User();
+        $user->setUsername('Nicolas');
+        $password = $this->hasher->hashPassword($user,'password');
+        $user->setPassword($password);
+        $manager->persist($user);
+
 
 
 

@@ -1,4 +1,4 @@
-### Mon Petit Placement _ API (Symfony 5.3 - ApiPlatform 2.6.6)
+### Mon Petit Placement _ API (Symfony 5.3.9 - ApiPlatform 2.6.6)
 
 
 
@@ -6,6 +6,8 @@
 ### Timing
 - Démarage projet + quelques soucis docker en local : 1 heure
 - Configuration JWT : 1 heure
+- Entities Configuration and gedmo installation : 1 heure
+- Serialisation : 1 heure
 
 
 ### Bundles used
@@ -56,3 +58,10 @@ Try Tests
 ```
 docker-compose exec php php bin/phpunit
 ```
+
+
+### To resume :
+- Entities created
+- Jwt Authentification configured with username and password
+- Fixtures
+- Used Gedmo Timestampable

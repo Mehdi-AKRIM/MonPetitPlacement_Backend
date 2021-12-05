@@ -6,21 +6,32 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource(mercure: true)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
+    const STATE_CREATED = 'CREATED';
+    const STATE_INPROGRESS = 'INPROGRESS';
+    const STATE_CLOSED = 'CLOSED';
+
     use TimestampableEntity;
 
+    #[Groups(["read", "write"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Groups(["read", "write"])]
     #[ORM\Column(type: 'string', length: 50)]
     private $name;
 
+    #[Groups(["read", "write"])]
     #[ORM\Column(type: 'string', length: 20)]
     private $status;
 

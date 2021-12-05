@@ -8,27 +8,35 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource(mercure: true)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
 #[ORM\Entity(repositoryClass: ToDoRepository::class)]
 class ToDo
 {
     use TimestampableEntity;
 
+    #[Groups(["read", "write"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Groups(["read", "write"])]
     #[ORM\Column(type: 'string', length: 50)]
     private $name;
 
+    #[Groups(["read", "write"])]
     #[ORM\OneToMany(mappedBy: 'toDo', targetEntity: Task::class, orphanRemoval: true)]
     private $tasks;
 
+    #[Groups(["read", "write"])]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'toDos')]
     #[ORM\JoinColumn(nullable: false)]
-    private $creator;
+    public $creator;
 
     public function __construct()
     {
