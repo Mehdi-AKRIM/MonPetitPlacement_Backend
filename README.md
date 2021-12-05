@@ -5,13 +5,14 @@
 
 ### Timing
 - Démarage projet + quelques soucis docker en local : 1 heure
-
+- Configuration JWT : 1 heure
 
 
 ### Bundles used
 - ApiPlatform
 - jwt-auth
 - orm-fixtures (dev only)
+- Stof doctrine-extensions-bundle (for Timestampable)
 
 ### Commands !
 
@@ -38,7 +39,7 @@ Load Fixtures (to get a User)
 docker-compose exec php php bin/console doctrine:fixtures:load
 ```
 
-Get the User Jwt token (Or get it directly form Swagger)
+Get the User Jwt token (Or get it directly from Swagger)
 ```
 curl -X 'POST' \
 'https://localhost/authentication_token' \

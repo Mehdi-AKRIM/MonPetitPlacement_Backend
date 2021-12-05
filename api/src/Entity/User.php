@@ -4,15 +4,21 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -26,6 +32,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: ToDo::class, orphanRemoval: true)]
+    private $toDos;
+
+    public function __construct()
+    {
+        $this->toDos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -109,5 +123,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|ToDo[]
+     */
+    public function getToDos(): Collection
+    {
+        return $this->toDos;
+    }
+
+    public function addToDo(ToDo $toDo): self
+    {
+        if (!$this->toDos->contains($toDo)) {
+            $this->toDos[] = $toDo;
+            $toDo->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeToDo(ToDo $toDo): self
+    {
+        if ($this->toDos->removeElement($toDo)) {
+            // set the owning side to null (unless already changed)
+            if ($toDo->getCreator() === $this) {
+                $toDo->setCreator(null);
+            }
+        }
+
+        return $this;
     }
 }

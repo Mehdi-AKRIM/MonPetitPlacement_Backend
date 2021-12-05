@@ -7,11 +7,14 @@ use App\Repository\ToDoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: ToDoRepository::class)]
 class ToDo
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -22,6 +25,10 @@ class ToDo
 
     #[ORM\OneToMany(mappedBy: 'toDo', targetEntity: Task::class, orphanRemoval: true)]
     private $tasks;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'toDos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $creator;
 
     public function __construct()
     {
@@ -71,6 +78,18 @@ class ToDo
                 $task->setToDo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
 
         return $this;
     }

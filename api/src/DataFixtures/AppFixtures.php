@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\ToDo;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -19,12 +20,18 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
-        $user->setUsername('admin');
-        $password = $this->hasher->hashPassword($user,'password');
-        $user->setPassword($password);
+        $admin = new User();
+        $admin->setUsername('admin');
+        $password = $this->hasher->hashPassword($admin,'password');
+        $admin->setPassword($password);
 
-        $manager->persist($user);
+        $todo = new ToDo();
+
+
+        $manager->persist($admin);
+
+
+
         $manager->flush();
     }
 }
