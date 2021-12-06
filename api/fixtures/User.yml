@@ -1,0 +1,8 @@
+App\Entity\User:
+    User{1..20}:
+        username: <firstname()>
+        password: <hashPassword('password')>
+
+    User21:
+        username : 'admin'
+        password: <hashPassword('password')>

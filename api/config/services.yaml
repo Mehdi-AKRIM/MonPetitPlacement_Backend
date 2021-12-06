@@ -26,3 +26,11 @@ services:
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@.inner' ] 
+        
+    App\Faker\Provider\HashPasswordProvider:
+        tags: [ { name: nelmio_alice.faker.provider } ]
+        
+    App\Faker\Provider\RandomStateProvider: ~
+    
+    App\Tests\Manager\FixturesManager:
+        tags: [ { name: fidry_alice_data_fixtures.processor } ] 

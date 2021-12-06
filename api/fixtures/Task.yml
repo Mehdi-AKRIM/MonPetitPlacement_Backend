@@ -1,0 +1,5 @@
+App\Entity\Task:
+    Task{1..100}:
+        name: <firstname()>
+        toDo: "@ToDo<numberBetween(1, 10)>"
+        status: <RandomState()>

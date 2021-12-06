@@ -59,6 +59,23 @@ Try Tests
 docker-compose exec php php bin/phpunit
 ```
 
+Load Alice Fixtures
+```
+docker-compose exec php php bin/console hautelook:fixtures:load
+```
+
+Create tests Database
+```
+docker-compose exec php php bin/console --env=test doctrine:database:create
+```
+```
+docker-compose exec php php bin/console --env=test d:s:u --force
+```
+
+Start Behat Tests 
+```
+docker-compose exec -e APP_ENV=test php vendor/bin/behat
+```
 
 ### To resume :
 - Entities created

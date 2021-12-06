@@ -1,0 +1,4 @@
+App\Entity\ToDo:
+    ToDo{1..20}:
+        name: <firstname()>
+        creator: "@User<numberBetween(1, 20)>"
