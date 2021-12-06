@@ -8,6 +8,7 @@
 - Configuration JWT : 1 heure
 - Entities Configuration and gedmo installation : 1 heure
 - Serialisation : 1 heure
+- Search Filters + Security Config : 1 heure
 
 
 ### Bundles used
@@ -15,6 +16,8 @@
 - jwt-auth
 - orm-fixtures (dev only)
 - Stof doctrine-extensions-bundle (for Timestampable)
+- Alice (Second branch)
+- Behat (Second branch)
 
 ### Commands !
 
