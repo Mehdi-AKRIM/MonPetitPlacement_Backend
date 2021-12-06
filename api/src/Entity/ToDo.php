@@ -9,11 +9,30 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
+    collectionOperations: ["post"],
+    itemOperations: [
+        "get",
+        "put" => [
+            "security_post_denormalize" => "object.creator == user",
+            "security_post_denormalize_message" => "Sorry, but you are not the actual ToDo owner.",
+        ],
+        "delete" => [
+            "security_post_denormalize" => "object.creator == user",
+            "security_post_denormalize_message" => "Sorry, but you are not the actual ToDo owner.",
+        ],
+        "patch" => [
+            "security_post_denormalize" => "object.creator == user",
+            "security_post_denormalize_message" => "Sorry, but you are not the actual ToDo owner.",
+        ]
+    ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'exact', 'creator' => 'exact'])]
 #[ORM\Entity(repositoryClass: ToDoRepository::class)]
 class ToDo
 {

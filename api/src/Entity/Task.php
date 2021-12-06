@@ -7,11 +7,30 @@ use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
+    collectionOperations: ["post"],
+    itemOperations: [
+        "get",
+        "put" => [
+            "security_post_denormalize" => "object.toDo.creator == user",
+            "security_post_denormalize_message" => "Sorry, but you are not the actual Task owner.",
+        ],
+        "delete" => [
+            "security_post_denormalize" => "object.toDo.creator == user",
+            "security_post_denormalize_message" => "Sorry, but you are not the actual Task owner.",
+        ],
+        "patch" => [
+            "security_post_denormalize" => "object.toDo.creator == user",
+            "security_post_denormalize_message" => "Sorry, but you are not the actual Task owner.",
+        ]
+    ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['status' => 'exact', 'name' => 'exact'])]
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
@@ -37,7 +56,7 @@ class Task
 
     #[ORM\ManyToOne(targetEntity: ToDo::class, inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
-    private $toDo;
+    public $toDo;
 
     public function getId(): ?int
     {
