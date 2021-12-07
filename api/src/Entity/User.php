@@ -40,7 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[Groups(["write"])]
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: ToDo::class, orphanRemoval: true)]
     private $toDos;
 

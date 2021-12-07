@@ -15,7 +15,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
-    collectionOperations: ["post"],
+    collectionOperations: ["get", "post"],
     itemOperations: [
         "get",
         "put" => [
@@ -48,7 +48,6 @@ class ToDo
     #[ORM\Column(type: 'string', length: 50)]
     private $name;
 
-    #[Groups(["read", "write"])]
     #[ORM\OneToMany(mappedBy: 'toDo', targetEntity: Task::class, orphanRemoval: true)]
     private $tasks;
 
