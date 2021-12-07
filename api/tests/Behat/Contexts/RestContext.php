@@ -73,16 +73,15 @@ final class RestContext extends ApiTestCase implements Context
             if(str_contains($options['body'],"{ToDo")) {
                 $todo = $this->get_string_between($options['body'],'"{','}"');
                 $referencedValue = ReferencesManager::getReference($todo);
-                $options['body'] = str_replace('{'.$todo.'}',"/categories/".$referencedValue,$options['body']);
+                $options['body'] = str_replace('{'.$todo.'}',"/to_dos/".$referencedValue,$options['body']);
             }
             if(str_contains($options['body'],"{Task")) {
                 $task = $this->get_string_between($options['body'],'"{','}"');
                 $referencedValue = ReferencesManager::getReference($task);
-                $options['body'] = str_replace('{'.$task.'}',"/bookmarks/".$referencedValue,$options['body']);
+                $options['body'] = str_replace('{'.$task.'}',"/tasks/".$referencedValue,$options['body']);
             }
             var_dump($options['body']);
         }
-
 
 
         $entity=$this->get_string_between($path,'{','}');
