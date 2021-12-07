@@ -9,6 +9,9 @@
 - Entities Configuration and gedmo installation : 1 heure
 - Serialisation : 1 heure
 - Search Filters + Security Config : 1 heure
+- Divers soucis techniques : 2 heures
+- Deploiment : 2 heures
+- Tentative des tests Behat : 2 heure
 
 
 ### Bundles used
@@ -16,8 +19,8 @@
 - jwt-auth
 - orm-fixtures (dev only)
 - Stof doctrine-extensions-bundle (for Timestampable)
-- Alice (Second branch)
-- Behat (Second branch)
+- Alice (tests branch)
+- Behat (tests branch)
 
 ### Commands !
 
@@ -57,14 +60,11 @@ curl -X 'POST' \
 ```
 
 
-Try Tests
-```
-docker-compose exec php php bin/phpunit
-```
-
 
 ### To resume :
 - Entities created
 - Jwt Authentification configured with username and password
 - Fixtures
 - Used Gedmo Timestampable
+- Filters and Security settings
+- Deployement by Heroku
