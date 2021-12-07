@@ -15,7 +15,7 @@ https://monpetitplacement.herokuapp.com/docs
 - Search Filters + Security Config : 1 heure
 - Divers soucis techniques : 2 heures
 - Deploiment : 2 heures
-- Tentative des tests Behat : 2 heure
+- Tentative des tests Behat : 4 heure
 
 
 ### Bundles used
