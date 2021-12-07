@@ -2,6 +2,10 @@
 
 
 
+### Link :
+https://monpetitplacement.herokuapp.com/docs
+(admin - password) to get a user
+
 
 ### Timing
 - Démarage projet + quelques soucis docker en local : 1 heure
