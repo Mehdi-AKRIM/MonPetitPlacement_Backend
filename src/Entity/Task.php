@@ -13,7 +13,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
-    collectionOperations: ["post"],
+    collectionOperations: ["get","post"],
     itemOperations: [
         "get",
         "put" => [
@@ -54,6 +54,7 @@ class Task
     #[ORM\Column(type: 'string', length: 20)]
     private $status;
 
+    #[Groups(["read", "write"])]
     #[ORM\ManyToOne(targetEntity: ToDo::class, inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
     public $toDo;
